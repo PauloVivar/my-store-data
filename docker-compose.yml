@@ -1,0 +1,10 @@
+version: '3.3'
+
+service:
+  image: postgres
+  environment:
+    - POSTGRES_DB=my_store
+    - POSTGRES_USER=paulov
+    - POSTGRES_PASSWORD=paulovroot
+  ports:
+    - 5432:5432
