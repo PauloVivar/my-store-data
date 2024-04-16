@@ -30,7 +30,9 @@ class UserService {
     //const rta = await this.pool.query(query);
     //return rta.rows;
 
-    const rta =  await models.User.findAll();
+    const rta =  await models.User.findAll({
+      include: ['customer']
+    });
     return rta;
   }
 
