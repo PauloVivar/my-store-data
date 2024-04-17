@@ -6,14 +6,12 @@ const boom = require('@hapi/boom');
 //const pool = require('../lib/postgres.pool');
 
 //sequelize con db
-const  { models } = require('./../lib/sequelize');
-
+const { models } = require('./../lib/sequelize');
 
 class UserService {
   constructor() {
     //this.pool = pool;
     //this.pool.on('error', (err) => console.error(err));
-
   }
 
   async create(data) {

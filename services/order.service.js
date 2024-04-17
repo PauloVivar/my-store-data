@@ -1,37 +1,49 @@
 // eslint-disable-next-line no-unused-vars
 const boom = require('@hapi/boom');
-const pool = require('../lib/postgres.pool');
+const { models } = require('./../lib/sequelize');
 
 class OrderService {
   constructor(){
-    this.products = [];
-    this.pool = pool;
-    this.pool.on('error', (err) => console.error(err));
   }
 
   async create(data) {
-    return data;
+    const newOrder = await models.Order.create(data);
+    return newOrder;
+  }
+
+  async addItem(data) {
+    const newItem = await models.OrderProduct.create(data);
+    return newItem;
   }
 
   async find() {
-    //return [];
-    const query = 'SELECT * FROM task';
-    const rta = await this.pool.query(query);
-    return rta.rows;
+    const orders = await models.Order.findAll();
+    return orders;
   }
 
   async findOne(id) {
-    return { id };
+    const order = await models.Order.findByPk(id, {
+      include: [{
+        //se anida informacion de order ,customer, user
+        association: 'customer',
+        include: ['user']
+      }]
+    });
+    if (!order){
+      throw boom.notFound('orden de compra no encontrada');
+    }
+    return order;
   }
 
   async update(id, changes) {
-    return {
-      id,
-      changes,
-    };
+    const order = await this.findOne(id);
+    const rta = await order.update(changes);
+     return rta;
   }
 
   async delete(id) {
+    const order = await this.findOne(id);
+    await order.destroy(id);
     return { id };
   }
 
