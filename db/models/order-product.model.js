@@ -34,6 +34,10 @@ const OrderProductSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
+  amount: {
+    allowNull: false,
+    type: DataTypes.INTEGER
+  },
   createAt: {
     allowNull: false,
     type: DataTypes.DATE,

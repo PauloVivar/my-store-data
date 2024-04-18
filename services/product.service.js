@@ -46,15 +46,23 @@ class ProductsService {
 
   }
 
-  async find() {
+  async find(query) {
     //const query = 'SELECT * FROM task';
     //const rta = await this.pool.query(query);    --->pool
     //const [data] = await models.query(query);    --->sequelize sin orm
 
-    //con orm gestion de CRUD
-    const products = await models.Product.findAll({
+    //Paginación
+    const options = {
       include: ['category']
-    });
+    }
+    const { limit, offset } = query;
+    if(limit && offset){
+      options.limit = limit;
+      options.offset = offset;
+    }
+
+    //con orm gestion de CRUD
+    const products = await models.Product.findAll(options);
     return products;
 
     //return rta.rows;     --->pool
